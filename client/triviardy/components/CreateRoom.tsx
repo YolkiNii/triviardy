@@ -2,10 +2,12 @@
 
 import { ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
+import Cookies from "universal-cookie";
 import { generateRoomID } from "@/utils/rooms";
 import useUser from "@/hooks/useUser";
 
 export default function CreateRoom() {
+  const cookies = new Cookies();
   const {setUser} = useUser();
   const router = useRouter();
 
@@ -16,6 +18,9 @@ export default function CreateRoom() {
   function handleClick() {
     const roomID = generateRoomID(10);
 
+    // Register room to server side
+
+    // Enter room route
     router.push(`/${roomID}`)
   }
 
