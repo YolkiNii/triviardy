@@ -1,11 +1,11 @@
 abstract class Question {
   text: string;
   answer: string;
-  incorrectAnswers: [string];
+  incorrectAnswers: string[];
   difficulty: string;
   answered: boolean;
 
-  constructor(text: string, answer: string, incorrectAnswers: [string],
+  constructor(text: string, answer: string, incorrectAnswers: string[],
               difficulty: string) {
     this.text = text;
     this.answer = answer;
