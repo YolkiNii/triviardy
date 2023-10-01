@@ -1,4 +1,4 @@
-abstract class Question {
+class Question {
   text: string;
   answer: string;
   incorrectAnswers: string[];
