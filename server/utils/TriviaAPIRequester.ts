@@ -26,6 +26,10 @@ class TriviaAPIRequester implements QuestionRequester {
     this.categories = categories;
   }
   
+  /*
+  GET Requests TriviaAPI(https://the-trivia-api.com/) and gets
+  number of questions with given number as param.
+  */
   async getQuestions(numQuestions: number): Promise<Question[]> {
     // Create the query string with parameters
     let queryString = `questions?limit=${numQuestions}`;
@@ -48,8 +52,6 @@ class TriviaAPIRequester implements QuestionRequester {
       questions.push(new Question(question.question, question.correctAnswer, 
                                   question.incorrectAnswers, question.difficulty));
     })
-
-    console.log(questions);
 
     return questions;
   }
