@@ -1,12 +1,10 @@
 import Player from "./Player";
-import Question from "./Question";
-import QuestionRequester from "./QuestionRequester";
 
-class Game {
+abstract class Game {
   id: number;
   players: {[playerid: number]: Player};
-  questions: Question[];
-  questionSupplier: QuestionRequester;
+
+  abstract startGame(): void;
 
   addPlayer(player: Player): void {
     this.players[player.id] = player;
