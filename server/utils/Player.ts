@@ -1,18 +1,9 @@
-class Player {
-  score: number;
-  id: number;
-  username: string;
+import User from "./User";
 
- constructor(username: string, id: number) {
-    this.score = 0;
-    this.username = username;
-    this.id = id;
+class Player extends User {
+  constructor(id: number, username: string) {
+    super(id, username);
   }
-
-  updateScore(earnedScore: number) {
-    this.score += earnedScore;
-  }
-  
 }
 
 export default Player;
