@@ -1,0 +1,24 @@
+import Question from "./Question";
+import QuestionRequester from "./QuestionRequester";
+import Game from "./Game";
+
+class TriviardyGame extends Game {
+  questions: Question[];
+  questionSupplier: QuestionRequester;
+
+  constructor(id: number, questionSupplier: QuestionRequester) {
+    super(id);
+    this.questionSupplier = questionSupplier;
+  }
+
+  async fillQuestions(numQuestions: number) {
+    this.questions = await this.questionSupplier.getQuestions(numQuestions);
+  }
+
+  setQuestionSupplier(questionSupplier: QuestionRequester) {
+    this.questionSupplier = questionSupplier;
+  }
+
+}
+
+export default TriviardyGame;
