@@ -1,8 +1,14 @@
-import User from "./User";
+class Player {
+  id: number;
+  username: string;
 
-class Player extends User {
-  constructor(id: number, username: string) {
-    super(id, username);
+  constructor (id: number, username: string) {
+    this.id = id;
+    this.username = username;
+  }
+  
+  setUsername(username: string): void {
+    this.username = username;
   }
 }
 

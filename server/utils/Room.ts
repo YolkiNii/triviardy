@@ -1,5 +1,5 @@
-import Game from "./Game";
 import Player from "./Player";
+import Game from "./Game";
 
 class Room {
   id: string;
@@ -7,8 +7,12 @@ class Room {
   game: Game;
   players: {[playerid: number]: Player};
 
+  setGame(game: Game): void {
+    this.game = game;
+  }
+
   addPlayer(username: string): void {
-    this.players[this.roomIDCount] = new Player(username, this.roomIDCount);
+    this.players[this.roomIDCount] = new Player(this.roomIDCount, username);
     this.roomIDCount++;
   }
 

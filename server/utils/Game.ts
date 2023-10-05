@@ -4,7 +4,9 @@ abstract class Game {
   id: number;
   players: {[playerid: number]: Player};
 
-  abstract startGame(): void;
+  constructor(id: number) {
+    this.id = id;
+  }
 
   addPlayer(player: Player): void {
     this.players[player.id] = player;

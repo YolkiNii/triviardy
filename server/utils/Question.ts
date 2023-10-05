@@ -17,7 +17,6 @@ class Question {
   markAsAnswered(): void {
     this.answered = true;
   }
-  
 }
 
 export default Question;
