@@ -1,8 +1,12 @@
 import express, { Express } from "express";
 import cors from "cors";
-import GameServer from "./utils/GameServer";
-import roomRouter from "./routes/roomRouter";
+import Rooms from "./utils/Rooms";
 
+/*
+  Creates an instance of an express app with
+  custom configurations and object to hold
+  all game rooms.
+*/
 function createApp() : Express {
   const app = express();
 
@@ -11,12 +15,9 @@ function createApp() : Express {
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
 
-  // Add Game Server Instance
-  const gameServer = new GameServer();
-  app.set("gameServer", gameServer);
-
-  // Rooms route
-  app.use("/rooms", roomRouter);
+  // Add Rooms instance to host all rooms for the app
+  const rooms = new Rooms();
+  app.set("rooms", rooms);
 
   return app;
 }

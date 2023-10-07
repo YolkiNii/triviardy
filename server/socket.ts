@@ -1,7 +1,23 @@
 import http from "http";
-import createApp from "./app";
+import { Server } from "socket.io";
 
-const app = createApp();
-const server = http.createServer(app);
+/* 
+  Register event handlers for socket
+*/
+function registerHandlers(httpServer) {
+  const io = new Server(httpServer, {
+    cors: {
+      "origin": "*"
+    }
+  });
 
-export default server;
+  io.on("connection", onConnection);
+
+  return io;
+}
+
+function onConnection(socket) {
+  console.log("Connected!");
+}
+
+export default registerHandlers
