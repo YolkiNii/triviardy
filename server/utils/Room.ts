@@ -7,6 +7,10 @@ class Room {
   game: Game;
   players: {[playerid: number]: Player};
 
+  constructor(id: string) {
+    this.id = id;
+  }
+
   setGame(game: Game): void {
     this.game = game;
   }

@@ -4,20 +4,21 @@ import { Server } from "socket.io";
 /* 
   Register event handlers for socket
 */
-function registerHandlers(httpServer) {
-  const io = new Server(httpServer, {
+function createSocket(app) {
+  const server = http.createServer(app);
+  const io = new Server(server, {
     cors: {
       "origin": "*"
     }
   });
 
+  function onConnection(socket) {
+    console.log("Client connected!");
+  }
+
   io.on("connection", onConnection);
 
-  return io;
+  return server;
 }
 
-function onConnection(socket) {
-  console.log("Connected!");
-}
-
-export default registerHandlers
+export default createSocket;
