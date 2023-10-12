@@ -1,28 +1,46 @@
 'use client'
 
-import { ChangeEvent } from "react";
+import { ChangeEvent, use, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "universal-cookie";
-import { generateRoomID } from "@/utils/rooms";
 import useUser from "@/hooks/useUser";
+import socket from "@/services/socket";
 
 export default function CreateRoom() {
-  const cookies = new Cookies();
-  const {setUser} = useUser();
+  const {user, setUser} = useUser();
   const router = useRouter();
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setUser({name: e.target.value});
+    setUser({id: null, name: e.target.value});
   }
 
   function handleClick() {
-    const roomID = generateRoomID(10);
+    console.log("Creating room for:", user.name, "with socket ID:", socket.id);
 
-    // Register room to server side
-
-    // Enter room route
-    router.push(`/${roomID}`)
+    // Send server request to create room
+    socket.emit("room:create", user.name);
   }
+
+  function onConnect() {
+    console.log("Client:", socket.id);
+  }
+
+  function onRoomCreate(data: any) {
+    setUser(prevState => (
+      {...prevState, id: data.playerID}
+    ));
+
+    router.push(`/${data.roomID}`);
+  }
+
+  useEffect(() => {
+    socket.on("connect", onConnect);
+    socket.on("room:created", onRoomCreate);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("room:created", onRoomCreate);
+    }
+  }, []);
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-screen">

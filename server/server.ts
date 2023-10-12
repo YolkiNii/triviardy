@@ -1,11 +1,29 @@
+import http from "http";
+import { Server } from "socket.io";
 import createApp from "./app";
-import createSocket from "./socket";
+import registerRoomHandlers from "./controllers/roomHandler";
+import registerTestHandlers from "./controllers/testHandler";
 
 const app = createApp();
-const server = createSocket(app);
 
 const port = 3001;
 
-server.listen(port, () => {
-  console.log("Server is running")
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    "origin": "http://localhost:3000"
+  }
 });
+
+io.on("connection", onConnection);
+
+server.listen(port, () => {
+  console.log("Server is running");
+});
+
+function onConnection(socket) {
+  console.log("Connected", socket.id);
+
+  registerTestHandlers(io, socket, app)
+  registerRoomHandlers(io, socket, app);
+}

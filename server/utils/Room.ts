@@ -3,9 +3,9 @@ import Game from "./Game";
 
 class Room {
   id: string;
-  roomIDCount: number;
+  playerIDCount: number = 0;
   game: Game;
-  players: {[playerid: number]: Player};
+  players: {[playerid: number]: Player} = {};
 
   constructor(id: string) {
     this.id = id;
@@ -15,9 +15,12 @@ class Room {
     this.game = game;
   }
 
-  addPlayer(username: string): void {
-    this.players[this.roomIDCount] = new Player(this.roomIDCount, username);
-    this.roomIDCount++;
+  addPlayer(username: string): number {
+    const playerID = this.playerIDCount;
+    this.players[playerID] = new Player(playerID, username);
+    this.playerIDCount++;
+
+    return playerID;
   }
 
   removePlayer(id: string): void {
