@@ -19,7 +19,8 @@ function registerRoomHandlers(io, socket, app) {
     // Return back room ID and assigned player ID for room
     const data = {
       roomID,
-      playerID
+      playerID,
+      username: host
     }
     console.log("Created room", data);
     socket.emit("room:created", data);

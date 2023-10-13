@@ -1,46 +1,60 @@
 'use client'
 
-import { ChangeEvent, use, useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Cookies from "universal-cookie";
 import useUser from "@/hooks/useUser";
 import socket from "@/services/socket";
+import { useSocketEvents, SocketEvent } from "@/hooks/useSocketEvents";
+import { User } from "@/types/User";
 
 export default function CreateRoom() {
   const {user, setUser} = useUser();
   const router = useRouter();
+
+  const events: SocketEvent[] = [
+    {
+      name: "connect",
+      handler() {
+        console.log("Connected:", socket.id);
+      }
+    },
+    {
+      name: "room:created",
+      handler(data: any) {
+        let cookie = new Cookies();
+
+        setUser(prevState => (
+          {...prevState, id: data.playerID}
+        ));
+
+        const currentUser: User = {
+          id: data.playerID,
+          name: data.username
+        }
+
+        cookie.set("user", currentUser);
+    
+        router.push(`/${data.roomID}`);
+      }
+    }
+  ]
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setUser({id: null, name: e.target.value});
   }
 
   function handleClick() {
-    console.log("Creating room for:", user.name, "with socket ID:", socket.id);
+    // Make sure username is not blank
+    if (user.name !== "") {
+      console.log("Creating room for:", user.name, "with socket ID:", socket.id);
 
-    // Send server request to create room
-    socket.emit("room:create", user.name);
-  }
-
-  function onConnect() {
-    console.log("Client:", socket.id);
-  }
-
-  function onRoomCreate(data: any) {
-    setUser(prevState => (
-      {...prevState, id: data.playerID}
-    ));
-
-    router.push(`/${data.roomID}`);
-  }
-
-  useEffect(() => {
-    socket.on("connect", onConnect);
-    socket.on("room:created", onRoomCreate);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("room:created", onRoomCreate);
+      // Send server request to create room
+      socket.emit("room:create", user.name);
     }
-  }, []);
+  }
+
+  useSocketEvents(events);
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-screen">
