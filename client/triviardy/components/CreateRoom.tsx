@@ -30,7 +30,8 @@ export default function CreateRoom() {
 
         const currentUser: User = {
           id: data.playerID,
-          name: data.username
+          name: data.username,
+          host: true
         }
 
         cookie.set("user", currentUser);
@@ -41,7 +42,7 @@ export default function CreateRoom() {
   ]
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setUser({id: null, name: e.target.value});
+    setUser({id: null, name: e.target.value, host: true});
   }
 
   function handleClick() {

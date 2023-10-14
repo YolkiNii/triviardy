@@ -1,4 +1,5 @@
 export type User = {
   id: number | null,
-  name: string;
+  name: string,
+  host: boolean
 }

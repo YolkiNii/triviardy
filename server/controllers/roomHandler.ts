@@ -27,6 +27,7 @@ function registerRoomHandlers(io, socket, app) {
   }
 
   socket.on("room:create", createRoom);
+
 }
 
 export default registerRoomHandlers;
