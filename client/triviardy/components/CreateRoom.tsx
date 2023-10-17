@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "universal-cookie";
 import useUser from "@/hooks/useUser";
@@ -47,7 +47,7 @@ export default function CreateRoom() {
 
   function handleClick() {
     // Make sure username is not blank
-    if (user.name !== "") {
+    if (socket && user.name !== "") {
       console.log("Creating room for:", user.name, "with socket ID:", socket.id);
 
       // Send server request to create room
