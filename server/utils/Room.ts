@@ -34,7 +34,7 @@ class Room {
   }
 
   isFull(): boolean {
-    return this.getPlayerCount() > this.MAX_PLAYER_COUNT;
+    return this.getPlayerCount() >= this.MAX_PLAYER_COUNT;
   }
 
   getPlayerCount(): number {

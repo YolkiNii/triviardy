@@ -12,7 +12,7 @@ class Rooms {
   }
 
   checkRoom(roomID: string): boolean {
-    return roomID in this.rooms;
+    return (roomID in this.rooms);
   }
 
   getRoom(roomID: string): Room {

@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import cors from "cors";
 import Rooms from "./utils/Rooms";
+import roomsRouter from "./routes/roomsRouter";
 
 /*
   Creates an instance of an express app with
@@ -18,6 +19,8 @@ function createApp() : Express {
   // Add Rooms instance to host all rooms for the app
   const rooms = new Rooms();
   app.set("rooms", rooms);
+
+  app.use("/room", roomsRouter);
 
   return app;
 }
