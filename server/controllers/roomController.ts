@@ -20,10 +20,11 @@ export function getRoom(req: Request, res: Response): any {
 
    // Check if room is full
    const room = rooms.getRoom(roomID);
+
    if (room.isFull()) {
     return res.status(403).json({ message: "Room is full." });
    }
 
-   // Let client know room
-   res.status(200);
+   // Let client know room exists
+   res.status(200).json({ message: "Room Entered!" });
 }
