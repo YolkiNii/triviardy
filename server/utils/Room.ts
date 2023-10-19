@@ -1,4 +1,4 @@
-import Player from "./Player";
+import Player, { IPlayer } from "./Player";
 import Game from "./Game";
 
 class Room {
@@ -6,7 +6,7 @@ class Room {
   id: string;
   playerIDCount: number = 0;
   game: Game;
-  players: {[playerid: number]: Player} = {};
+  players: {[playerID: string]: Player} = {};
 
   constructor(id: string) {
     this.id = id;
@@ -41,6 +41,14 @@ class Room {
     return Object.keys(this.playerIDCount).length;
   }
 
+  allPlayersToObject(): {[playerID: string]: IPlayer} {
+    const playersObject = {};
+    for (const [playerID, player] of Object.entries<Player>(this.players))  {
+      playersObject[playerID] = player.toObject();
+    }
+
+    return playersObject;
+  }
 }
 
 export default Room;

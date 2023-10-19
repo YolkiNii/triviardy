@@ -30,7 +30,7 @@ export default function JoinRoom({ roomID }: IJoinRoomProps) {
   return (
     <div className="flex flex-col justify-center items-center w-full h-screen">
       <p className="text-3xl font-semibold text-center mb-1">Triviardy</p>
-      <input 
+      <input
         type="text" 
         placeholder="Enter your username"
         className="text-center text-base rounded-md py-3 mb-1"

@@ -14,7 +14,6 @@ import socket from "@/services/socket";
 export default function Room() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorMsg, setErrorMsg] = useState<string>("");
-  const [players, setPlayers] = useState<User[]>([])
   const {user, setUser} = useUser();
   const pathname = usePathname();
   const roomID = pathname.split("/")[1];
@@ -23,6 +22,24 @@ export default function Room() {
       name: "connect",
       handler() {
         console.log("Connected in Room");
+      }
+    },
+    {
+      name: "room:joined",
+      handler(data) {
+        let cookie = new Cookies();
+
+        setUser(prevState => (
+          {...prevState, id: data.playerID}
+        ));
+
+        const currentUser: User = {
+          id: data.playerID,
+          name: data.username,
+          host: false
+        }
+
+        cookie.set("user", currentUser);
       }
     }
   ]
@@ -33,15 +50,12 @@ export default function Room() {
     async function checkRoom(): Promise<void> {
       // Check if room is available
       try {
-        console.log(`room/${roomID}`);
         // Send get request for room with room ID
         await baseAPI.get(`room/${roomID}`);
 
         // Check if cookie already has user
         const cookie = new Cookies();
         const cookieUser = cookie.get("user");
-
-        console.log(cookie);
 
         if (cookieUser) {
           setUser(cookieUser);
@@ -54,7 +68,6 @@ export default function Room() {
           setErrorMsg(err.response.data.message);
       }
       finally {
-        console.log("Done Loading");
         setIsLoading(false);
       }
 
