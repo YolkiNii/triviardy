@@ -9,7 +9,7 @@ import { useSocketEvents, SocketEvent } from "@/hooks/useSocketEvents";
 import JoinRoom from "./JoinRoom";
 import Link from "next/link";
 import baseAPI from "@/api/base";
-import socket from "@/services/socket";
+import Lobby from "./Lobby";
 
 export default function Room() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -28,11 +28,6 @@ export default function Room() {
       name: "room:joined",
       handler(data) {
         let cookie = new Cookies();
-
-        setUser(prevState => (
-          {...prevState, id: data.playerID}
-        ));
-
         const currentUser: User = {
           id: data.playerID,
           name: data.username,
@@ -40,6 +35,10 @@ export default function Room() {
         }
 
         cookie.set("user", currentUser);
+
+        setUser(prevState => (
+          {...prevState, id: data.playerID}
+        ));
       }
     }
   ]
@@ -89,10 +88,7 @@ export default function Room() {
           </>
         ) : (
           user.id !== null || undefined ? (
-            <>
-              <h1>Welcome {user.name} {user.id}</h1>
-              <h2>Room: {roomID}</h2>
-            </>
+            <Lobby roomID={roomID}/>
           ) : (
             <JoinRoom roomID={roomID}/>
           )

@@ -23,18 +23,17 @@ export default function CreateRoom() {
       name: "room:created",
       handler(data: any) {
         let cookie = new Cookies();
-
-        setUser(prevState => (
-          {...prevState, id: data.playerID}
-        ));
-
         const currentUser: User = {
           id: data.playerID,
-          name: data.username,
+          username: data.username,
           host: true
         }
 
         cookie.set("user", currentUser);
+
+        setUser(prevState => (
+          {...prevState, id: data.playerID}
+        ));
     
         router.push(`/${data.roomID}`);
       }
@@ -42,16 +41,16 @@ export default function CreateRoom() {
   ]
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setUser({id: null, name: e.target.value, host: true});
+    setUser({id: null, username: e.target.value, host: true});
   }
 
   function handleClick() {
     // Make sure username is not blank
-    if (socket && user.name !== "") {
-      console.log("Creating room for:", user.name, "with socket ID:", socket.id);
+    if (socket && user.username !== "") {
+      console.log("Creating room for:", user.username, "with socket ID:", socket.id);
 
       // Send server request to create room
-      socket.emit("room:create", user.name);
+      socket.emit("room:create", user.username);
     }
   }
 

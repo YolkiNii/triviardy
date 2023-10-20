@@ -10,17 +10,17 @@ export default function JoinRoom({ roomID }: IJoinRoomProps) {
   const {user, setUser} = useUser();
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setUser({id: null, name: e.target.value, host: false});
+    setUser({id: null, username: e.target.value, host: false});
   }
 
   function handleClick() {
     // Make sure username is not blank
-    if (socket && user.name !== "") {
+    if (socket && user.username !== "") {
       console.log("Joining room:", roomID, "with socket ID", socket.id);
 
       // Send server request to join room
       const data = {
-        username: user.name,
+        username: user.username,
         roomID
       }
       socket.emit("room:join", data);

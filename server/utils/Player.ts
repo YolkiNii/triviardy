@@ -1,15 +1,18 @@
 export interface IPlayer {
   id: number;
   username: string;
+  host: boolean;
 }
 
 class Player implements IPlayer {
   id: number;
   username: string;
+  host: boolean;
 
-  constructor (id: number, username: string) {
+  constructor (id: number, username: string, host: boolean) {
     this.id = id;
     this.username = username;
+    this.host = host;
   }
   
   setUsername(username: string): void {
@@ -19,7 +22,8 @@ class Player implements IPlayer {
   toObject(): IPlayer {
     return {
       id: this.id,
-      username: this.username
+      username: this.username,
+      host: this.host
     }
   }
 }

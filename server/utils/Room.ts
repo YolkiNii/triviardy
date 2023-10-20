@@ -16,14 +16,14 @@ class Room {
     this.game = game;
   }
 
-  addPlayer(username: string): number {
+  addPlayer(username: string, host: boolean): number {
     // Check if there is room for another player
     if (this.isFull()) {
       return -1;
     }
     
     const playerID = this.playerIDCount;
-    this.players[playerID] = new Player(playerID, username);
+    this.players[playerID] = new Player(playerID, username, host);
     this.playerIDCount++;
 
     return playerID;
@@ -41,7 +41,7 @@ class Room {
     return Object.keys(this.playerIDCount).length;
   }
 
-  allPlayersToObject(): {[playerID: string]: IPlayer} {
+  getAllPlayersToObject(): {[playerID: string]: IPlayer} {
     const playersObject = {};
     for (const [playerID, player] of Object.entries<Player>(this.players))  {
       playersObject[playerID] = player.toObject();

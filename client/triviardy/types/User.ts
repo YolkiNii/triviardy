@@ -1,5 +1,5 @@
 export type User = {
-  id: number | null,
-  name: string,
+  id: string | null,
+  username: string,
   host: boolean
 }

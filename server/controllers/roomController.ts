@@ -26,5 +26,5 @@ export function getRoom(req: Request, res: Response): any {
    }
 
    // Let client know room exists
-   res.status(200).json({ message: "Room Entered!" });
+   res.status(200).json({ message: "Room Open!" });
 }

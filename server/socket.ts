@@ -13,6 +13,8 @@ function createSocket(app) {
     }
   });
 
+  app.set("socketio", io);
+
   function onConnection(socket) {
     console.log("Connected", socket.id);
     registerRoomHandlers(io, socket, app);
