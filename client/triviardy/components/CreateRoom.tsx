@@ -29,7 +29,7 @@ export default function CreateRoom() {
           host: true
         }
 
-        cookie.set("user", currentUser);
+        cookie.set(data.roomID, currentUser);
 
         setUser(prevState => (
           {...prevState, id: data.playerID}

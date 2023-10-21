@@ -42,6 +42,9 @@ export default function Lobby({ roomID }: ILobbyProps) {
       )}
       <h1>Welcome {user.username} {user.id}</h1>
       <h2>Room: {roomID}</h2>
+      {Object.keys(players).map(id => (
+        <p key={id}>Player {players[id].username}</p>
+      ))}
     </>
   )
 }

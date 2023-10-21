@@ -30,11 +30,11 @@ export default function Room() {
         let cookie = new Cookies();
         const currentUser: User = {
           id: data.playerID,
-          name: data.username,
+          username: data.username,
           host: false
         }
 
-        cookie.set("user", currentUser);
+        cookie.set(roomID, currentUser);
 
         setUser(prevState => (
           {...prevState, id: data.playerID}
@@ -49,16 +49,18 @@ export default function Room() {
     async function checkRoom(): Promise<void> {
       // Check if room is available
       try {
-        // Send get request for room with room ID
-        await baseAPI.get(`room/${roomID}`);
-
-        // Check if cookie already has user
+        // Check if cookie already has user for this room
         const cookie = new Cookies();
-        const cookieUser = cookie.get("user");
+        const cookieUser = cookie.get(roomID);
 
         if (cookieUser) {
           setUser(cookieUser);
         }
+        else {
+          // Send get request for room with room ID
+          await baseAPI.get(`room/${roomID}`);
+        }
+ 
       }
       catch (err: any) {
         if (!err?.response)
