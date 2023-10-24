@@ -3,23 +3,24 @@ import { useEffect, useState } from "react";
 import { useSocketEvents, SocketEvent } from "@/hooks/useSocketEvents";
 import socket from "@/services/socket";
 import { User } from "@/types/User";
+import LobbyPlayerList from "./LobbyPlayerList";
+import GameSetup from "./GameSetup";
 
 interface ILobbyProps {
   roomID: string
 }
 
-interface IPlayers {
+export interface IPlayers {
   [playerID: string]: User
 }
 
 export default function Lobby({ roomID }: ILobbyProps) {
   const [players, setPlayers] = useState<IPlayers>({});
-  const {user, setUser} = useUser();
+  const {user} = useUser();
   const events: SocketEvent[] = [
     {
       name: "room:update_players",
       handler(data: IPlayers) {
-        console.log(data);
         setPlayers(data);
       }
     }
@@ -34,17 +35,9 @@ export default function Lobby({ roomID }: ILobbyProps) {
   }, [])
 
   return (
-    <>
-      {user.host ? (
-        <h1>You're Host!</h1>
-      ) : (
-        <h1>Wait for host to start game.</h1>
-      )}
-      <h1>Welcome {user.username} {user.id}</h1>
-      <h2>Room: {roomID}</h2>
-      {Object.keys(players).map(id => (
-        <p key={id}>Player {players[id].username}</p>
-      ))}
-    </>
+    <div className="flex relative border-2 border-black h-[600px] items-center">
+      <LobbyPlayerList players={players} />
+      <GameSetup />
+    </div>
   )
 }
