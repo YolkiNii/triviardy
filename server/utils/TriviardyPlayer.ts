@@ -3,8 +3,8 @@ import Player from "./Player";
 class TriviardyPlayer extends Player {
   score: number
 
-  constructor(id: number, username: string) {
-    super(id, username);
+  constructor(id: number, username: string, host: boolean) {
+    super(id, username, host);
     this.score = 0;
   }
 

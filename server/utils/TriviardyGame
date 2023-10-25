@@ -1,8 +1,11 @@
 import Question from "./Question";
 import QuestionRequester from "./QuestionRequester";
 import Game from "./Game";
+import TriviardyPlayer from "./TriviardyPlayer";
+import Player from "./Player";
 
 class TriviardyGame extends Game {
+  players: { [playerid: number]: TriviardyPlayer; };
   questions: Question[];
   questionSupplier: QuestionRequester;
 
@@ -19,6 +22,12 @@ class TriviardyGame extends Game {
     this.questionSupplier = questionSupplier;
   }
 
+  addPlayer(player: Player): void {
+    this.players[player.id] = new TriviardyPlayer(player.id, player.username,
+                                                  player.host);
+
+    return;
+  }
 }
 
 export default TriviardyGame;
