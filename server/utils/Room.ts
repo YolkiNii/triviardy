@@ -41,6 +41,10 @@ class Room {
     return Object.keys(this.playerIDCount).length;
   }
 
+  getAllPlayers(): {[playerID: string]: Player} {
+    return this.players;
+  }
+
   getAllPlayersToObject(): {[playerID: string]: IPlayer} {
     const playersObject = {};
     for (const [playerID, player] of Object.entries<Player>(this.players))  {

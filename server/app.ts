@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import Rooms from "./utils/Rooms";
 import roomsRouter from "./routes/roomsRouter";
+import gamesRouter from "./routes/gamesRouter";
 
 /*
   Creates an instance of an express app with
@@ -21,6 +22,7 @@ function createApp() : Express {
   app.set("rooms", rooms);
 
   app.use("/room", roomsRouter);
+  app.use("/games", gamesRouter);
 
   return app;
 }

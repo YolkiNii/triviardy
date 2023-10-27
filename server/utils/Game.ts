@@ -1,11 +1,13 @@
 import Player from "./Player";
 
 abstract class Game {
+  GAME_ID_COUNT = 0;
   id: number;
-  players: {[playerid: number]: Player};
+  players: {[playerid: number]: Player} = {};
 
-  constructor(id: number) {
-    this.id = id;
+  constructor() {
+    this.id = this.GAME_ID_COUNT;
+    this.GAME_ID_COUNT++;
   }
 
   addPlayer(player: Player): void {

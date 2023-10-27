@@ -51,7 +51,13 @@ function registerRoomHandlers(io, socket, app) {
   function joinLobby(roomID: string): void {
     // Get all players from server side represented as object
     const rooms: Rooms = app.get("rooms");
+
+    if (!rooms.checkRoom(roomID)) {
+      return;
+    }
+    
     const room = rooms.getRoom(roomID);
+
     const players = room.getAllPlayersToObject();
 
     console.log(players);

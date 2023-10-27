@@ -9,8 +9,8 @@ class TriviardyGame extends Game {
   questions: Question[];
   questionSupplier: QuestionRequester;
 
-  constructor(id: number, questionSupplier: QuestionRequester) {
-    super(id);
+  constructor(questionSupplier: QuestionRequester) {
+    super();
     this.questionSupplier = questionSupplier;
   }
 
