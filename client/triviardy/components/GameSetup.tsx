@@ -1,19 +1,52 @@
 import useUser from "@/hooks/useUser";
-import categories from "@/utils/categories";
+import { categories, APICategories } from "@/utils/categories";
+import baseAPI from "@/api/base";
 import { useState } from "react";
+import useRoomID from "@/hooks/useRoomID";
+
+const TRIVIA_API_URL = "/games/triviardy";
 
 export default function GameSetup() {
+  const roomID = useRoomID();
+  const [errorMsg, setErrorMsg] = useState("");
   const [checkedCategories, setCheckedCategories] = useState(
     new Array(categories.length).fill(false)
   );
   const {user} = useUser();
 
   const handleOnChange = (position: number) => {
+    setErrorMsg("");
     const updatedCheckedCategories = checkedCategories.map((check, index) => {
       return index === position ? !check : check;
     });
 
     setCheckedCategories(updatedCheckedCategories);
+  }
+
+  const handleOnGameStart = async () => {
+    // Check which categories are sent
+    const selected = APICategories.filter((category, index) => {
+      return checkedCategories[index];
+    });
+
+    console.log(selected);
+
+    // Check if no categories are selected
+    if (selected.length === 0) {
+      setErrorMsg("No categories selected");
+      return;
+    }
+
+    // Create game
+    try {
+      await baseAPI.post(`${TRIVIA_API_URL}/${roomID}`, 
+      JSON.stringify({ "catagories": selected })
+      );
+    }
+    catch (error) {
+      console.log(error);
+      setErrorMsg("Something went wrong when creating game.");
+    }
   }
 
   return (
@@ -35,7 +68,11 @@ export default function GameSetup() {
               </label>
             );
           })}
-          <button className="text-lg font-medium my-2 border-2 px-2 border-black rounded-md bg-amber-300 hover:bg-amber-400">
+          {errorMsg && <p>{errorMsg}</p>}
+          <button 
+            className="text-lg font-medium my-2 border-2 px-2 border-black rounded-md bg-amber-300 hover:bg-amber-400"
+            onClick={handleOnGameStart}
+          >
             Start Game!
           </button>
         </div>
