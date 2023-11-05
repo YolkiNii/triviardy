@@ -40,7 +40,7 @@ export default function GameSetup() {
     // Create game
     try {
       await baseAPI.post(`${TRIVIA_API_URL}/${roomID}`, 
-      JSON.stringify({ "catagories": selected })
+      { "categories": selected }
       );
     }
     catch (error) {

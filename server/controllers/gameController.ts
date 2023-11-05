@@ -24,6 +24,8 @@ export async function createGame(req: Request, res: Response): Promise<any> {
 
   const room = rooms.getRoom(roomID);
 
+  console.log(req.body);
+
   // Check if categories information was sent
   if (!req?.body?.categories) {
     return res.status(400).json({ message: "No categories given" });
@@ -41,6 +43,8 @@ export async function createGame(req: Request, res: Response): Promise<any> {
   for (const player in players) {
     triviaGame.addPlayer(players[player]);
   }
+
+  room.setGame(triviaGame);
 
   console.log(triviaGame);
 

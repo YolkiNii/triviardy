@@ -1,15 +1,21 @@
 import Player, { IPlayer } from "./Player";
 import Game from "./Game";
+import TriviardyGame from "./TriviardyGame";
 
 class Room {
   MAX_PLAYER_COUNT = 4;
   id: string;
   playerIDCount: number = 0;
-  game: Game;
+  game: Game | TriviardyGame;
   players: {[playerID: string]: Player} = {};
 
   constructor(id: string) {
     this.id = id;
+  }
+
+
+  getGame(): Game | TriviardyGame {
+    return this.game;
   }
 
   setGame(game: Game): void {

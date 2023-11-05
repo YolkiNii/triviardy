@@ -1,4 +1,4 @@
-const categories = [
+export const categories = [
   "General Knowledge",
   "Music",
   "Sport and Leisure",
@@ -11,4 +11,15 @@ const categories = [
   "Food and Drink"
 ];
 
-export default categories;
+export const APICategories = [
+  "general_knowledge",
+  "music",
+  "sport_and_leisure",
+  "film_and_tv",
+  "arts_and_literature",
+  "history",
+  "society_and_culture",
+  "science",
+  "geography",
+  "food_and_drink"
+]

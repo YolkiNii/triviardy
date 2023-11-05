@@ -1,4 +1,4 @@
-import Question from "./Question";
+import Question, { IQuestion } from "./Question";
 import QuestionRequester from "./QuestionRequester";
 import Game from "./Game";
 import TriviardyPlayer from "./TriviardyPlayer";
@@ -20,6 +20,12 @@ class TriviardyGame extends Game {
 
   setQuestionSupplier(questionSupplier: QuestionRequester) {
     this.questionSupplier = questionSupplier;
+  }
+
+  allQuestionsToObject(): IQuestion[] {
+    return this.questions.map((question) => {
+      return question.toObject();
+    });
   }
 
   addPlayer(player: Player): void {
