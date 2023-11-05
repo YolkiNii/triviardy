@@ -1,12 +1,17 @@
 import useUser from "@/hooks/useUser";
 import { categories, APICategories } from "@/utils/categories";
 import baseAPI from "@/api/base";
-import { useState } from "react";
+import { SetStateAction, useState, Dispatch } from "react";
 import useRoomID from "@/hooks/useRoomID";
+import socket from "@/services/socket";
 
 const TRIVIA_API_URL = "/games/triviardy";
 
-export default function GameSetup() {
+interface IGameSetupProps {
+  setGameStarted: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function GameSetup({ setGameStarted }: IGameSetupProps) {
   const roomID = useRoomID();
   const [errorMsg, setErrorMsg] = useState("");
   const [checkedCategories, setCheckedCategories] = useState(
@@ -47,6 +52,9 @@ export default function GameSetup() {
       console.log(error);
       setErrorMsg("Something went wrong when creating game.");
     }
+
+    setGameStarted(true);
+    socket.emit("game:request_initialize", roomID);
   }
 
   return (

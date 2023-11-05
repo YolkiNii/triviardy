@@ -15,7 +15,7 @@ function registerGameHandlers(io, socket, app) {
     
     const data = {};
     data["questions"] = game.allQuestionsToObject();
-    console.log(data);
+    console.log("Initialize client", data);
 
     // Initialize clients games
     io.emit("game:initialize", data);

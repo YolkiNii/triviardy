@@ -1,6 +1,7 @@
 import http from "http";
 import { Server } from "socket.io";
 import registerRoomHandlers from "./controllers/roomHandler";
+import registerGameHandlers from "./controllers/gameHandler";
 
 /* 
   Register event handlers for server socket
@@ -18,6 +19,7 @@ function createSocket(app) {
   function onConnection(socket) {
     console.log("Connected", socket.id);
     registerRoomHandlers(io, socket, app);
+    registerGameHandlers(io, socket, app);
   }
 
   io.on("connection", onConnection);

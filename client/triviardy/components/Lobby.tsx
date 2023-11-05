@@ -25,13 +25,6 @@ export default function Lobby({ roomID }: ILobbyProps) {
       handler(data: IPlayers) {
         setPlayers(data);
       }
-    },
-    {
-      name: "game:start_triviardy",
-      handler() {
-        setGameStarted(true);
-        socket.emit("game:request_initialize", roomID);
-      }
     }
   ];
 
@@ -50,7 +43,7 @@ export default function Lobby({ roomID }: ILobbyProps) {
       ) : (
         <div className="flex relative border-2 border-black h-[600px] items-center">
           <LobbyPlayerList players={players} />
-          <GameSetup />
+          <GameSetup setGameStarted={setGameStarted}/>
         </div>
       )}
     </>
