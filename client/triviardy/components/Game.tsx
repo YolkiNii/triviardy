@@ -20,6 +20,6 @@ export default function Game() {
   useSocketEvents(events);
 
   return (
-    <h1>Game started</h1>
+    <Board questions={questions}/>
   )
 }
