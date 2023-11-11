@@ -10,6 +10,7 @@ import JoinRoom from "./JoinRoom";
 import Link from "next/link";
 import baseAPI from "@/api/base";
 import Lobby from "./Lobby";
+import socket from "@/services/socket";
 
 export default function Room() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -55,6 +56,7 @@ export default function Room() {
 
         if (cookieUser) {
           setUser(cookieUser);
+          socket.emit("room:rejoin", roomID);
         }
         else {
           // Send get request for room with room ID

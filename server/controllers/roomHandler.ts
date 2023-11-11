@@ -64,9 +64,16 @@ function registerRoomHandlers(io, socket, app) {
     io.to(roomID).emit("room:update_players", players);
   }
 
+  function rejoinRoom(roomID: string): void {
+    // Whenever client refreshes page, new socket connection
+    // will reconnect to socketio room
+    socket.join(roomID);
+  }
+
   socket.on("room:create", createRoom);
   socket.on("room:join", joinRoom);
   socket.on("room:join_lobby", joinLobby);
+  socket.on("room:rejoin", rejoinRoom);
 }
 
 export default registerRoomHandlers;
