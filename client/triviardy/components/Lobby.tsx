@@ -6,6 +6,7 @@ import { User } from "@/types/User";
 import LobbyPlayerList from "./LobbyPlayerList";
 import GameSetup from "./GameSetup";
 import Game from "./Game";
+import { QuestionType } from "@/types/QuestionType";
 
 interface ILobbyProps {
   roomID: string
@@ -18,12 +19,21 @@ export interface IPlayers {
 export default function Lobby({ roomID }: ILobbyProps) {
   const [players, setPlayers] = useState<IPlayers>({});
   const [gameStarted, setGameStarted] = useState(false);
+  const [startQuestions, setStartQuestions] = useState<QuestionType[]>([]);
   const {user} = useUser();
   const events: SocketEvent[] = [
     {
       name: "room:update_players",
       handler(data: IPlayers) {
         setPlayers(data);
+      }
+    },
+    {
+      name: "game:initialize",
+      handler(data) {
+        // Populate game questions
+        setStartQuestions(data.questions);
+        setGameStarted(true);
       }
     }
   ];
@@ -39,11 +49,11 @@ export default function Lobby({ roomID }: ILobbyProps) {
   return (
     <>
       {gameStarted ? (
-        <Game />
+        <Game initialQuestions={startQuestions}/>
       ) : (
         <div className="flex relative border-2 border-black h-[600px] items-center">
           <LobbyPlayerList players={players} />
-          <GameSetup setGameStarted={setGameStarted}/>
+          <GameSetup />
         </div>
       )}
     </>

@@ -11,7 +11,7 @@ interface IGameSetupProps {
   setGameStarted: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function GameSetup({ setGameStarted }: IGameSetupProps) {
+export default function GameSetup() {
   const roomID = useRoomID();
   const [errorMsg, setErrorMsg] = useState("");
   const [checkedCategories, setCheckedCategories] = useState(
@@ -53,7 +53,6 @@ export default function GameSetup({ setGameStarted }: IGameSetupProps) {
       setErrorMsg("Something went wrong when creating game.");
     }
 
-    setGameStarted(true);
     socket.emit("game:request_initialize", roomID);
   }
 

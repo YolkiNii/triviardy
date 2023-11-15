@@ -3,21 +3,13 @@ import { QuestionType } from "@/types/QuestionType";
 import { SocketEvent, useSocketEvents } from "@/hooks/useSocketEvents";
 import { useState } from "react";
 
-export default function Game() {
-  const [questions, setQuestions] = useState<QuestionType[]>([]);
+export interface IGameProps {
+  initialQuestions: QuestionType[]
+}
 
-  const events: SocketEvent[] = [
-    {
-      name: "game:initialize",
-      handler(data) {
-        // Populate game questions
-        setQuestions(data.questions);
-        console.log(data.questions);
-      }
-    }
-  ]
-
-  useSocketEvents(events);
+export default function Game({ initialQuestions }: IGameProps) {
+  const [questions, setQuestions] = useState<QuestionType[]>(initialQuestions);
+  console.log("In Game", questions);
 
   return (
     <Board questions={questions}/>
