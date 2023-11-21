@@ -1,6 +1,10 @@
-import Player from "./Player";
+import Player, { IPlayer } from "./Player";
 
-class TriviardyPlayer extends Player {
+export interface ITriviardyPlayer extends IPlayer {
+  score: number;
+}
+
+class TriviardyPlayer extends Player implements ITriviardyPlayer {
   score: number
 
   constructor(id: number, username: string, host: boolean) {
@@ -10,6 +14,13 @@ class TriviardyPlayer extends Player {
 
   updateScore(scored: number) {
     this.score += scored;
+  }
+
+  toObject(): ITriviardyPlayer {
+    return {
+      ...super.toObject(),
+      score: 0
+    }
   }
 }
 

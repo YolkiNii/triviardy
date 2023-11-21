@@ -1,7 +1,7 @@
 import Question, { IQuestion } from "./Question";
 import QuestionRequester from "./QuestionRequester";
 import Game from "./Game";
-import TriviardyPlayer from "./TriviardyPlayer";
+import TriviardyPlayer, { ITriviardyPlayer } from "./TriviardyPlayer";
 import Player from "./Player";
 
 class TriviardyGame extends Game {
@@ -33,6 +33,17 @@ class TriviardyGame extends Game {
                                                   player.host);
 
     return;
+  }
+
+  allPlayersToObject(): { [playerid: number]: ITriviardyPlayer} {
+    // Create copy of current players record
+    const playersCopy = {};
+
+    Object.keys(this.players).forEach((playerID) => {
+      playersCopy[playerID] = this.players[playerID].toObject();
+    });
+
+    return playersCopy;
   }
 }
 
