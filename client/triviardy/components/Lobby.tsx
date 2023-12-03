@@ -7,6 +7,7 @@ import LobbyPlayerList from "./LobbyPlayerList";
 import GameSetup from "./GameSetup";
 import Game from "./Game";
 import { QuestionType } from "@/types/QuestionType";
+import { TriviardyPlayerType } from "@/types/TriviardyPlayerType";
 
 interface ILobbyProps {
   roomID: string
@@ -16,10 +17,15 @@ export interface IPlayers {
   [playerID: string]: User
 }
 
+export interface ITriviardyPlayers {
+  [playerID: string]: TriviardyPlayerType;
+}
+
 export default function Lobby({ roomID }: ILobbyProps) {
   const [players, setPlayers] = useState<IPlayers>({});
   const [gameStarted, setGameStarted] = useState(false);
-  const [startQuestions, setStartQuestions] = useState<QuestionType[]>([]);
+  const [initialQuestions, setInitialQuestions] = useState<QuestionType[]>([]);
+  const [initialPlayers, setInitialPlayers] = useState<ITriviardyPlayers>({});
   const {user} = useUser();
   const events: SocketEvent[] = [
     {
@@ -32,7 +38,8 @@ export default function Lobby({ roomID }: ILobbyProps) {
       name: "game:initialize",
       handler(data) {
         // Populate game questions
-        setStartQuestions(data.questions);
+        setInitialQuestions(data.questions);
+        setInitialPlayers(data.players);
         setGameStarted(true);
       }
     }
@@ -49,7 +56,7 @@ export default function Lobby({ roomID }: ILobbyProps) {
   return (
     <>
       {gameStarted ? (
-        <Game initialQuestions={startQuestions}/>
+        <Game initialQuestions={initialQuestions} initialPlayers={initialPlayers}/>
       ) : (
         <div className="flex relative border-2 border-black h-[600px] items-center">
           <LobbyPlayerList players={players} />
