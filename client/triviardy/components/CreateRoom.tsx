@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "universal-cookie";
 import useUser from "@/hooks/useUser";
@@ -10,6 +10,7 @@ import { User } from "@/types/User";
 
 export default function CreateRoom() {
   const {user, setUser} = useUser();
+  const [errorMsg, setErrorMsg] = useState<string>("");
   const router = useRouter();
 
   const events: SocketEvent[] = [
@@ -41,10 +42,18 @@ export default function CreateRoom() {
   ]
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    setErrorMsg("");
     setUser({id: null, username: e.target.value, host: true});
   }
 
   function handleClick() {
+    
+    // Check if connection exists
+    if (!socket?.connected) {
+      setErrorMsg("Failed to connect to server");
+      return;
+    }
+
     // Make sure username is not blank
     if (socket && user.username !== "") {
       console.log("Creating room for:", user.username, "with socket ID:", socket.id);
@@ -65,6 +74,7 @@ export default function CreateRoom() {
         className="text-center text-base rounded-md py-3 mb-1"
         onChange={handleChange}
       />
+      {errorMsg && <p className="font-semibold text-red-500">{errorMsg}</p>}
       <button 
         className="text-xl font-medium text-center border-2 p-2 rounded-md border-black bg-amber-300 hover:bg-amber-400 hover:pointer"
         onClick={handleClick}

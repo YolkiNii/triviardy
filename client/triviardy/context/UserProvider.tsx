@@ -3,7 +3,7 @@ import { User } from "@/types/User";
 import { UserContextType } from "@/types/UserContextType";
 
 const UserContext = createContext<UserContextType>({
-  user: {id: null, name: ""},
+  user: {id: null, username: "", host: false},
   setUser: () => {}
 });
 
@@ -12,7 +12,7 @@ export function UserProvider({
 }: {
   children: React.ReactNode
 }) {
-  const [user, setUser] = useState<User>({id: null, name: ""});
+  const [user, setUser] = useState<User>({id: null, username: "", host: false});
 
   return (
     <UserContext.Provider value={{user, setUser}}>
