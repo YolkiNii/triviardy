@@ -18,8 +18,8 @@ function registerGameHandlers(io, socket, app) {
     data["players"] = game.allPlayersToObject();
     console.log("Initialize client", data);
 
-    // Initialize clients games
-    io.emit("game:initialize", data);
+    // Initialize client's game
+    io.to(roomID).emit("game:initialize", data);
   }
 
   socket.on("game:request_initialize", initializeClientGame)
