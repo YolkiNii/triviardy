@@ -3,6 +3,7 @@ import { QuestionType } from "@/types/QuestionType";
 import { SocketEvent, useSocketEvents } from "@/hooks/useSocketEvents";
 import { useState } from "react";
 import { ITriviardyPlayers } from "./Lobby";
+import Players from "./Players";
 
 export interface IGameProps {
   initialQuestions: QuestionType[];
@@ -16,6 +17,9 @@ export default function Game({ initialQuestions, initialPlayers }: IGameProps) {
   console.log("In Game", players);
 
   return (
-    <Board questions={questions}/>
+    <>
+      <Board questions={questions} />
+      <Players players={players} />
+    </>
   )
 }
