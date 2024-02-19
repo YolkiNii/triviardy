@@ -6,6 +6,8 @@ import Player from "./Player";
 
 class TriviardyGame extends Game {
   players: { [playerid: number]: TriviardyPlayer; };
+  playerIDs: number[];
+  turnPlayerID: number;
   questions: Question[];
   questionSupplier: QuestionRequester;
 
@@ -31,6 +33,7 @@ class TriviardyGame extends Game {
   addPlayer(player: Player): void {
     this.players[player.id] = new TriviardyPlayer(player.id, player.username,
                                                   player.host);
+    this.playerIDs.push(player.id);
 
     return;
   }
@@ -44,6 +47,14 @@ class TriviardyGame extends Game {
     });
 
     return playersCopy;
+  }
+
+  setRandomPlayerTurn(): void {
+    this.turnPlayerID = this.playerIDs[Math.floor(Math.random() * this.playerIDs.length)];
+  }
+
+  setPlayerTurn(playerID: number): void {
+    this.turnPlayerID = playerID;
   }
 }
 

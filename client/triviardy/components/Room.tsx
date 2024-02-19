@@ -91,7 +91,7 @@ export default function Room() {
             <Link href="/">Go to Homepage</Link>
           </>
         ) : (
-          user.id !== null || undefined ? (
+          user.id !== null && user.id !== undefined ? (
             <Lobby roomID={roomID}/>
           ) : (
             <JoinRoom roomID={roomID}/>

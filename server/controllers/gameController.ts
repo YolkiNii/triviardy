@@ -44,6 +44,7 @@ export async function createGame(req: Request, res: Response): Promise<any> {
     triviaGame.addPlayer(players[player]);
   }
 
+  triviaGame.setRandomPlayerTurn();
   room.setGame(triviaGame);
 
   console.log(triviaGame);
