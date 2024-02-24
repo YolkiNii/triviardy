@@ -14,6 +14,7 @@ class TriviardyGame extends Game {
   constructor(questionSupplier: QuestionRequester) {
     super();
     this.questionSupplier = questionSupplier;
+    this.playerIDs = [];
   }
 
   async fillQuestions(numQuestions: number) {
@@ -49,11 +50,15 @@ class TriviardyGame extends Game {
     return playersCopy;
   }
 
-  setRandomPlayerTurn(): void {
+  getTurnPlayer(): number {
+    return this.turnPlayerID
+  }
+
+  setRandomTurnPlayer(): void {
     this.turnPlayerID = this.playerIDs[Math.floor(Math.random() * this.playerIDs.length)];
   }
 
-  setPlayerTurn(playerID: number): void {
+  setTurnPlayer(playerID: number): void {
     this.turnPlayerID = playerID;
   }
 }

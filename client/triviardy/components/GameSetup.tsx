@@ -51,6 +51,7 @@ export default function GameSetup() {
     catch (error) {
       console.log(error);
       setErrorMsg("Something went wrong when creating game.");
+      return;
     }
 
     socket.emit("game:request_initialize", roomID);
