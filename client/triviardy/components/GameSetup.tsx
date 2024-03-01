@@ -1,15 +1,11 @@
 import useUser from "@/hooks/useUser";
 import { categories, APICategories } from "@/utils/categories";
 import baseAPI from "@/api/base";
-import { SetStateAction, useState, Dispatch } from "react";
+import { useState } from "react";
 import useRoomID from "@/hooks/useRoomID";
 import socket from "@/services/socket";
 
 const TRIVIA_API_URL = "/games/triviardy";
-
-interface IGameSetupProps {
-  setGameStarted: Dispatch<SetStateAction<boolean>>;
-}
 
 export default function GameSetup() {
   const roomID = useRoomID();
