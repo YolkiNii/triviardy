@@ -10,6 +10,7 @@ export default function Board({ questions }: IBoardProps) {
   const [selectedQuestion, setSelectedQuestion] = useState<QuestionType>();
 
   function handleClick(question: QuestionType) {
+    // Let other players know question was selected
     console.log(question);
     setSelectedQuestion(question);
   }
@@ -44,12 +45,14 @@ export default function Board({ questions }: IBoardProps) {
         )}
       </div>
     ) : (
-      <div className="w-4/6 h-96 ml-auto mr-auto bg-slate-200 border-2">
-        <h2 className="text-center">{selectedQuestion.text}</h2>
-        <div className="grid grid-rows-2 grid-cols-2">
+      <div className="flex flex-col w-4/6 h-96 ml-auto mr-auto bg-slate-200 border-2">
+        <p className="text-center text-3xl font-bold m-auto break-words w-9/12">{selectedQuestion.text}</p>
+        <div className="bottom-auto w-full grid grid-rows-2 grid-cols-2 h-1/2">
           {answers.map((answer, index) => {
             return (
-              <p className="border-2">{answer}</p>
+              <button className="border-2 rounded-md border-sky-500">
+                <p className="text-xl font-medium">{answer}</p>
+              </button>
             )
           })}
         </div>
