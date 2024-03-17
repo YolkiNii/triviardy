@@ -1,6 +1,7 @@
 import { QuestionType } from "@/types/QuestionType";
 import Square from "./Square"
 import { useState } from "react";
+import { useSocketEvents } from "@/hooks/useSocketEvents";
 
 export interface IBoardProps {
   questions: QuestionType[];
@@ -10,7 +11,7 @@ export default function Board({ questions }: IBoardProps) {
   const [selectedQuestion, setSelectedQuestion] = useState<QuestionType>();
 
   function handleClick(question: QuestionType) {
-    // Let other players know question was selected
+    // TODO: Let other players know question was selected
     console.log(question);
     setSelectedQuestion(question);
   }

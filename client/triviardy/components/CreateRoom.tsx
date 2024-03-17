@@ -6,7 +6,7 @@ import Cookies from "universal-cookie";
 import useUser from "@/hooks/useUser";
 import socket from "@/services/socket";
 import { useSocketEvents, SocketEvent } from "@/hooks/useSocketEvents";
-import { User } from "@/types/User";
+import { UserType } from "@/types/UserType";
 
 export default function CreateRoom() {
   const {user, setUser} = useUser();
@@ -24,7 +24,7 @@ export default function CreateRoom() {
       name: "room:created",
       handler(data: any) {
         let cookie = new Cookies();
-        const currentUser: User = {
+        const currentUser: UserType = {
           id: data.playerID,
           username: data.username,
           host: true

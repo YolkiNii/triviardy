@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Cookies from "universal-cookie";
 import useUser from "@/hooks/useUser";
-import { User } from "@/types/User";
+import { User } from "@/types/UserType";
 import { useSocketEvents, SocketEvent } from "@/hooks/useSocketEvents";
 import JoinRoom from "./JoinRoom";
 import Link from "next/link";

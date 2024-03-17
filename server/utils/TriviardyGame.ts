@@ -8,6 +8,7 @@ class TriviardyGame extends Game {
   players: { [playerid: number]: TriviardyPlayer; };
   playerIDs: number[];
   turnPlayerID: number;
+  selectedQuestion: Question;
   questions: Question[];
   questionSupplier: QuestionRequester;
 

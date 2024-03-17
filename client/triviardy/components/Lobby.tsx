@@ -2,7 +2,7 @@ import useUser from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { useSocketEvents, SocketEvent } from "@/hooks/useSocketEvents";
 import socket from "@/services/socket";
-import { User } from "@/types/User";
+import { User } from "@/types/UserType";
 import LobbyPlayerList from "./LobbyPlayerList";
 import GameSetup from "./GameSetup";
 import Game from "./Game";
