@@ -22,6 +22,10 @@ class TriviardyGame extends Game {
     this.questions = await this.questionSupplier.getQuestions(numQuestions);
   }
 
+  getQuestionByID(id: number): IQuestion {
+    return this.questions[id];
+  }
+
   setQuestionSupplier(questionSupplier: QuestionRequester) {
     this.questionSupplier = questionSupplier;
   }

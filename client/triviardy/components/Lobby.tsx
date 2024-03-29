@@ -33,7 +33,8 @@ export default function Lobby({ roomID }: ILobbyProps) {
     {
       name: "game:initialize",
       handler(data) {
-        setGameInSession(data["gameInSession"]);
+        if (data && Object.hasOwn(data, "gameInSession"))
+          setGameInSession(data["gameInSession"]);
       }
     }
   ];

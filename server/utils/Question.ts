@@ -1,4 +1,5 @@
 export interface IQuestion {
+  id: number
   text: string;
   answer: string;
   incorrectAnswers: string[];
@@ -7,14 +8,16 @@ export interface IQuestion {
 }
 
 class Question {
+  id: number
   text: string;
   answer: string;
   incorrectAnswers: string[];
   difficulty: string;
   answered: boolean;
 
-  constructor(text: string, answer: string, incorrectAnswers: string[],
+  constructor(id: number, text: string, answer: string, incorrectAnswers: string[],
               difficulty: string) {
+    this.id = id;
     this.text = text;
     this.answer = answer;
     this.incorrectAnswers = incorrectAnswers;
@@ -28,6 +31,7 @@ class Question {
 
   toObject(): IQuestion {
     return {
+      id: this.id,
       text: this.text,
       answer: this.answer,
       incorrectAnswers: this.incorrectAnswers,

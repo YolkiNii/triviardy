@@ -41,8 +41,26 @@ function registerGameHandlers(io, socket, app) {
     socket.emit("game:update_game", data);
   }
 
+  function sendSelectedQuestion(recieved: any) {
+    const rooms: Rooms = app.get("rooms");
+
+    if (!rooms.checkRoom(recieved.roomID)) {
+      return;
+    }
+
+    const room = rooms.getRoom(recieved.roomID);
+    const game = room.getGame() as TriviardyGame;
+
+    const data = {};
+
+    data["question"] = game.getQuestionByID(recieved.id);
+
+    io.to(recieved.roomID).emit("game:question_selected", data);
+  }
+
   socket.on("game:request_initialize", initializeClientGame)
   socket.on("game:request_game_state", sendClientGameState);
+  socket.on("game:request_question_select", sendSelectedQuestion);
 }
 
 export default registerGameHandlers;

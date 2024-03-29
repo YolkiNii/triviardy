@@ -1,4 +1,5 @@
 export interface QuestionType {
+  id: number,
   text: string;
   answer: string;
   incorrectAnswers: string[];

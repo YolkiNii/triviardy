@@ -59,9 +59,13 @@ function registerRoomHandlers(io, socket, app) {
     const room = rooms.getRoom(roomID);
 
     const players = room.getAllPlayersToObject();
+    
+    // TODO: Let joining player know if game is in session
+
 
     console.log(players);
     io.to(roomID).emit("room:update_players", players);
+    socket.emit("game:initialize", )
   }
 
   function rejoinRoom(roomID: string): void {

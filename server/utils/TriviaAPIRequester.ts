@@ -47,9 +47,10 @@ class TriviaAPIRequester implements QuestionRequester {
     const response = await TriviaAPIRequester.baseAPI.get<TriviaAPIQuestion[]>(queryString);
 
     const questions: Question[] = [];
+    let i = 0;
 
     response.data.forEach((question) => {
-      questions.push(new Question(question.question, question.correctAnswer, 
+      questions.push(new Question(i++, question.question, question.correctAnswer, 
                                   question.incorrectAnswers, question.difficulty));
     })
 

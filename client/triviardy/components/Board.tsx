@@ -1,7 +1,9 @@
 import { QuestionType } from "@/types/QuestionType";
 import Square from "./Square"
 import { useState } from "react";
-import { useSocketEvents } from "@/hooks/useSocketEvents";
+import { SocketEvent, useSocketEvents } from "@/hooks/useSocketEvents";
+import socket from "@/services/socket";
+import useRoomID from "@/hooks/useRoomID";
 
 export interface IBoardProps {
   questions: QuestionType[];
@@ -9,11 +11,25 @@ export interface IBoardProps {
 
 export default function Board({ questions }: IBoardProps) {
   const [selectedQuestion, setSelectedQuestion] = useState<QuestionType>();
+  const roomID = useRoomID();
+
+  const events: SocketEvent[] = [
+    {
+      name: "game:question_selected",
+      handler(data) {
+        setSelectedQuestion(data.question);
+      }
+    }
+  ]
+
+  useSocketEvents(events);
 
   function handleClick(question: QuestionType) {
-    // TODO: Let other players know question was selected
-    console.log(question);
-    setSelectedQuestion(question);
+    const data = {
+      roomID,
+      id: question.id
+    }
+    socket.emit("game:request_question_select", data);
   }
 
   const answers = []
