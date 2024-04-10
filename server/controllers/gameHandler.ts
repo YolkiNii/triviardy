@@ -10,12 +10,9 @@ function registerGameHandlers(io, socket, app) {
       return;
     }
     
-    const room = rooms.getRoom(roomID);
-    const game = room.getGame() as TriviardyGame;
-    
     const data = {};
 
-    data["gameInSession"] = game.getGameInSession();
+    data["gameInSession"] = true;
 
     // Initialize client's game
     io.to(roomID).emit("game:initialize", data);

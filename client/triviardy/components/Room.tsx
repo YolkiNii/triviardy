@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Cookies from "universal-cookie";
 import useUser from "@/hooks/useUser";
-import { User } from "@/types/UserType";
+import { UserType } from "@/types/UserType";
 import { useSocketEvents, SocketEvent } from "@/hooks/useSocketEvents";
 import JoinRoom from "./JoinRoom";
 import Link from "next/link";
@@ -29,7 +29,7 @@ export default function Room() {
       name: "room:joined",
       handler(data) {
         let cookie = new Cookies();
-        const currentUser: User = {
+        const currentUser: UserType = {
           id: data.playerID,
           username: data.username,
           host: false

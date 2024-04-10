@@ -2,7 +2,7 @@ import useUser from "@/hooks/useUser";
 import { useEffect, useState } from "react";
 import { useSocketEvents, SocketEvent } from "@/hooks/useSocketEvents";
 import socket from "@/services/socket";
-import { User } from "@/types/UserType";
+import { UserType } from "@/types/UserType";
 import LobbyPlayerList from "./LobbyPlayerList";
 import GameSetup from "./GameSetup";
 import Game from "./Game";
@@ -13,7 +13,7 @@ interface ILobbyProps {
 }
 
 export interface IPlayers {
-  [playerID: string]: User
+  [playerID: string]: UserType
 }
 
 export interface ITriviardyPlayers {
@@ -32,9 +32,8 @@ export default function Lobby({ roomID }: ILobbyProps) {
     },
     {
       name: "game:initialize",
-      handler(data) {
-        if (data && Object.hasOwn(data, "gameInSession"))
-          setGameInSession(data["gameInSession"]);
+      handler(data: any) {
+        setGameInSession(data["gameInSession"]);
       }
     }
   ];
@@ -44,7 +43,10 @@ export default function Lobby({ roomID }: ILobbyProps) {
   useEffect(() => {
     // Let other players know you've entered
     // and update everyone's client
-    socket.emit("room:join_lobby", roomID);
+    // Check if there is a game going on
+    socket.emit("room:join_lobby", roomID, (response: any) => {
+      setGameInSession(response.status);
+    });
   }, [])
 
   return (

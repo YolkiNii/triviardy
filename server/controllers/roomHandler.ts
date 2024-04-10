@@ -1,4 +1,5 @@
 import Rooms from "../utils/Rooms";
+import TriviardyGame from "../utils/TriviardyGame";
 
 function registerRoomHandlers(io, socket, app) {
 
@@ -48,7 +49,7 @@ function registerRoomHandlers(io, socket, app) {
     socket.emit("room:joined", data);
   }
 
-  function joinLobby(roomID: string): void {
+  function joinLobby(roomID: string, callback: Function): void {
     // Get all players from server side represented as object
     const rooms: Rooms = app.get("rooms");
 
@@ -59,13 +60,19 @@ function registerRoomHandlers(io, socket, app) {
     const room = rooms.getRoom(roomID);
 
     const players = room.getAllPlayersToObject();
-    
-    // TODO: Let joining player know if game is in session
-
+    const game = room.getGame() as TriviardyGame;
+    let gameInSession = false;
 
     console.log(players);
     io.to(roomID).emit("room:update_players", players);
-    socket.emit("game:initialize", )
+
+    // Let player know if game is going on through acknowledgement
+    if (game !== undefined && game !== null)
+      gameInSession = game.getGameInSession();
+
+    callback({
+      "status": gameInSession
+    });
   }
 
   function rejoinRoom(roomID: string): void {
