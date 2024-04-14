@@ -50,7 +50,7 @@ function registerGameHandlers(io, socket, app) {
 
     const data = {};
 
-    data["question"] = game.getQuestionByID(recieved.id);
+    data["question"] = game.getQuestionByID(recieved.questionID);
 
     io.to(recieved.roomID).emit("game:question_selected", data);
   }

@@ -6,16 +6,17 @@ import { ITriviardyPlayers } from "./Lobby";
 import Players from "./Players";
 import socket from "@/services/socket";
 import useRoomID from "@/hooks/useRoomID";
+import useUser from "@/hooks/useUser";
 
 export default function Game() {
   const [questions, setQuestions] = useState<QuestionType[]>();
   const [players, setPlayers] = useState<ITriviardyPlayers>();
   const [turnPlayerID, setTurnPlayerID] = useState<number>();
   const roomID = useRoomID();
+  const {user} = useUser();
   console.log("In Game", questions);
   console.log("In Game", players);
 
-  /* CREATE SOCKET EVENTS TO UPDATE GAME STATE */
   const events: SocketEvent[] = [
     {
       "name": "game:update_game",
@@ -36,8 +37,8 @@ export default function Game() {
 
   return (
     <>
-      {questions && <Board questions={questions} />}
-      {players && turnPlayerID !== undefined && <Players players={players} turnPlayerID={turnPlayerID} />}
+      {questions && players && user.id && turnPlayerID && <Board questions={questions} player={players[user.id]} turnPlayerID={turnPlayerID} />}
+      {players && turnPlayerID && <Players players={players} turnPlayerID={turnPlayerID} />}
     </>
   )
 }

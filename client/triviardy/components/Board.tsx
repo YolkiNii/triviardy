@@ -4,14 +4,20 @@ import { useState } from "react";
 import { SocketEvent, useSocketEvents } from "@/hooks/useSocketEvents";
 import socket from "@/services/socket";
 import useRoomID from "@/hooks/useRoomID";
+import useUser from "@/hooks/useUser";
+import { TriviardyPlayerType } from "@/types/TriviardyPlayerType";
+import clsx from "clsx";
 
 export interface IBoardProps {
   questions: QuestionType[];
+  player: TriviardyPlayerType;
+  turnPlayerID: number;
 }
 
-export default function Board({ questions }: IBoardProps) {
+export default function Board({ questions, player, turnPlayerID }: IBoardProps) {
   const [selectedQuestion, setSelectedQuestion] = useState<QuestionType>();
   const roomID = useRoomID();
+  const {user} = useUser();
 
   const events: SocketEvent[] = [
     {
@@ -24,10 +30,10 @@ export default function Board({ questions }: IBoardProps) {
 
   useSocketEvents(events);
 
-  function handleClick(question: QuestionType) {
+  function handleQuestionSelect(question: QuestionType) {
     const data = {
       roomID,
-      id: question.id
+      questionID: question.id
     }
     socket.emit("game:request_question_select", data);
   }
@@ -58,7 +64,7 @@ export default function Board({ questions }: IBoardProps) {
     {selectedQuestion === undefined || selectedQuestion === null ? (
       <div className="grid w-4/6 h-96 grid-rows-4 grid-cols-4 ml-auto mr-auto bg-slate-200">
         {questions.map((question, i) => 
-          <Square key={i} question={question} handleClick={handleClick}/>
+          <Square key={i} question={question} turnPlayerID={turnPlayerID} handleQuestionSelect={handleQuestionSelect}/>
         )}
       </div>
     ) : (
@@ -67,7 +73,7 @@ export default function Board({ questions }: IBoardProps) {
         <div className="bottom-auto w-full grid grid-rows-2 grid-cols-2 h-1/2">
           {answers.map((answer, index) => {
             return (
-              <button className="border-2 rounded-md border-sky-500">
+              <button className="border-2 rounded-md border-sky-500 hover:cursor-pointer">
                 <p className="text-xl font-medium">{answer}</p>
               </button>
             )

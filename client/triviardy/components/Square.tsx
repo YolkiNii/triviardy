@@ -1,6 +1,7 @@
 import { QuestionType } from "@/types/QuestionType"
+import { TriviardyPlayerType } from "@/types/TriviardyPlayerType";
 
-export default function Square({ question, handleClick } : { question: QuestionType, handleClick: Function }) {
+export default function Square({ question, turnPlayerID, player, handleQuestionSelect } : { question: QuestionType, turnPlayerID: number, player: TriviardyPlayerType, handleQuestionSelect: Function }) {
   let earnablePoints: string;
   
   switch (question.difficulty) {
@@ -14,6 +15,6 @@ export default function Square({ question, handleClick } : { question: QuestionT
       earnablePoints = "100";
   }
   return (
-    <button className="border-2 pointer-events-auto" disabled={!question.answered} onClick={() => handleClick(question)}>{earnablePoints}</button>
+    <button className="border-2 hover:cursor-pointer" disabled={!question.answered || turnPlayerID !== player.id} onClick={() => handleQuestionSelect(question)}>{earnablePoints}</button>
   )
 }
