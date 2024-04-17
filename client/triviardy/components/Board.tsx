@@ -38,6 +38,17 @@ export default function Board({ questions, player, turnPlayerID }: IBoardProps) 
     socket.emit("game:request_question_select", data);
   }
 
+  function handleAnswerSelect(answer: string) {
+    const data = {
+      roomID,
+      playerID: player.id,
+      questionID: selectedQuestion?.id,
+      answer
+    }
+
+    socket.emit("game:request_answer_select", data);
+  }
+
   const answers = []
 
   if (selectedQuestion) {
@@ -64,7 +75,7 @@ export default function Board({ questions, player, turnPlayerID }: IBoardProps) 
     {selectedQuestion === undefined || selectedQuestion === null ? (
       <div className="grid w-4/6 h-96 grid-rows-4 grid-cols-4 ml-auto mr-auto bg-slate-200">
         {questions.map((question, i) => 
-          <Square key={i} question={question} turnPlayerID={turnPlayerID} handleQuestionSelect={handleQuestionSelect}/>
+          <Square key={i} question={question} turnPlayerID={turnPlayerID} player={player} handleQuestionSelect={handleQuestionSelect}/>
         )}
       </div>
     ) : (
@@ -73,7 +84,7 @@ export default function Board({ questions, player, turnPlayerID }: IBoardProps) 
         <div className="bottom-auto w-full grid grid-rows-2 grid-cols-2 h-1/2">
           {answers.map((answer, index) => {
             return (
-              <button className="border-2 rounded-md border-sky-500 hover:cursor-pointer">
+              <button className="border-2 rounded-md border-sky-500 hover:cursor-pointer" disabled={player.haveAnswered} onClick={() => handleAnswerSelect(answer)}>
                 <p className="text-xl font-medium">{answer}</p>
               </button>
             )

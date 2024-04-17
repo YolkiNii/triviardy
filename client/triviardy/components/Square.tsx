@@ -1,5 +1,6 @@
 import { QuestionType } from "@/types/QuestionType"
 import { TriviardyPlayerType } from "@/types/TriviardyPlayerType";
+import clsx from "clsx";
 
 export default function Square({ question, turnPlayerID, player, handleQuestionSelect } : { question: QuestionType, turnPlayerID: number, player: TriviardyPlayerType, handleQuestionSelect: Function }) {
   let earnablePoints: string;
@@ -15,6 +16,15 @@ export default function Square({ question, turnPlayerID, player, handleQuestionS
       earnablePoints = "100";
   }
   return (
-    <button className="border-2 hover:cursor-pointer" disabled={!question.answered || turnPlayerID !== player.id} onClick={() => handleQuestionSelect(question)}>{earnablePoints}</button>
+    <button 
+      className={clsx(
+        "border-2 hover:cursor-pointer",
+        {
+          "grayscale": question.answered
+        }
+      )}
+      disabled={question.answered || turnPlayerID !== player.id} 
+      onClick={() => handleQuestionSelect(question)}>{earnablePoints}
+    </button>
   )
 }

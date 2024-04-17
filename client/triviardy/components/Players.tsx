@@ -12,7 +12,7 @@ export default function Players({ players, turnPlayerID }: { players: ITriviardy
               "flex justify-center border-2 rounded-md w-28 bg-slate-200",
               {
                 "border-sky-600": players[id].id !== turnPlayerID,
-                "border-blue-400": players[id].id === turnPlayerID
+                "border-lime-500": players[id].id === turnPlayerID
               },
             )}>
               <div className="flex justify-center mx-3 my-3 bg-white w-11/12">

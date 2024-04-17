@@ -19,6 +19,14 @@ class TriviardyPlayer extends Player implements ITriviardyPlayer {
     this.score += scored;
   }
 
+  getScore() {
+    return this.score;
+  }
+
+  setHaveAnswered(answered: boolean): void {
+    this.haveAnswered = answered;
+  }
+
   toObject(): ITriviardyPlayer {
     return {
       ...super.toObject(),

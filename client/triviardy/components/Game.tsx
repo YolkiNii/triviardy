@@ -37,8 +37,9 @@ export default function Game() {
 
   return (
     <>
-      {questions && players && user.id && turnPlayerID && <Board questions={questions} player={players[user.id]} turnPlayerID={turnPlayerID} />}
-      {players && turnPlayerID && <Players players={players} turnPlayerID={turnPlayerID} />}
+      {questions && players && user.id !== undefined && user.id !== null && turnPlayerID !== undefined && turnPlayerID !== null && 
+        <Board questions={questions} player={players[user.id]} turnPlayerID={turnPlayerID} />}
+      {players && turnPlayerID !== undefined && turnPlayerID !== null && <Players players={players} turnPlayerID={turnPlayerID} />}
     </>
   )
 }

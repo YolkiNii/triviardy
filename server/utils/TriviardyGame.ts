@@ -22,7 +22,7 @@ class TriviardyGame extends Game {
     this.questions = await this.questionSupplier.getQuestions(numQuestions);
   }
 
-  getQuestionByID(id: number): IQuestion {
+  getQuestionByID(id: number): Question {
     return this.questions[id];
   }
 
@@ -59,12 +59,24 @@ class TriviardyGame extends Game {
     return this.turnPlayerID
   }
 
+  getPlayerByID(id: number): TriviardyPlayer {
+    return this.players[id];
+  }
+
   setRandomTurnPlayer(): void {
     this.turnPlayerID = this.playerIDs[Math.floor(Math.random() * this.playerIDs.length)];
   }
 
   setTurnPlayer(playerID: number): void {
     this.turnPlayerID = playerID;
+  }
+
+  markQuestionAsAnswered(questionID: number): void {
+    const question: Question = this.getQuestionByID(questionID);
+
+    question.answered = true;
+
+    this.questions[questionID] = question;
   }
 }
 
