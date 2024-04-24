@@ -7,15 +7,18 @@ import Player from "./Player";
 class TriviardyGame extends Game {
   players: { [playerid: number]: TriviardyPlayer; };
   playerIDs: number[];
+  playerAnsweredCount: number;
   turnPlayerID: number;
-  selectedQuestion: Question;
   questions: Question[];
+  answeredQuestionsCount: number;
   questionSupplier: QuestionRequester;
 
   constructor(questionSupplier: QuestionRequester) {
     super();
     this.questionSupplier = questionSupplier;
     this.playerIDs = [];
+    this.playerAnsweredCount = 0;
+    this.answeredQuestionsCount = 0;
   }
 
   async fillQuestions(numQuestions: number) {
@@ -75,8 +78,31 @@ class TriviardyGame extends Game {
     const question: Question = this.getQuestionByID(questionID);
 
     question.answered = true;
+    this.answeredQuestionsCount++;
 
     this.questions[questionID] = question;
+  }
+
+  resetPlayerAnswerAvailability(): void {
+    Object.keys(this.players).forEach((playerID) => {
+      this.players[playerID].setHaveAnswered(false);
+    });
+  }
+
+  getPlayerAnsweredCount(): number {
+    return this.playerAnsweredCount;
+  }
+
+  setPlayerAnsweredCount(count: number): void {
+    this.playerAnsweredCount = count;
+  }
+
+  questionHasBeenAnswered(): boolean {
+    return this.playerAnsweredCount >= this.playerIDs.length;
+  }
+
+  gameIsOver(): boolean {
+    return this.answeredQuestionsCount >= this.questions.length;
   }
 }
 

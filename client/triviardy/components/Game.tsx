@@ -12,6 +12,7 @@ export default function Game() {
   const [questions, setQuestions] = useState<QuestionType[]>();
   const [players, setPlayers] = useState<ITriviardyPlayers>();
   const [turnPlayerID, setTurnPlayerID] = useState<number>();
+  const [selectedQuestion, setSelectedQuestion] = useState<QuestionType | undefined>();
   const roomID = useRoomID();
   const {user} = useUser();
   console.log("In Game", questions);
@@ -21,6 +22,15 @@ export default function Game() {
     {
       "name": "game:update_game",
       handler(data) {
+        // Check if game has ended to render results screen
+        if (data?.gameover) {
+
+        }
+
+        if (data?.changeQuestion) {
+          setSelectedQuestion(undefined);
+        }
+
         setQuestions(data.questions);
         setPlayers(data.players);
         setTurnPlayerID(data.turnPlayerID);
@@ -38,7 +48,7 @@ export default function Game() {
   return (
     <>
       {questions && players && user.id !== undefined && user.id !== null && turnPlayerID !== undefined && turnPlayerID !== null && 
-        <Board questions={questions} player={players[user.id]} turnPlayerID={turnPlayerID} />}
+        <Board questions={questions} player={players[user.id]} turnPlayerID={turnPlayerID} selectedQuestion={selectedQuestion} setSelectedQuestion={setSelectedQuestion} />}
       {players && turnPlayerID !== undefined && turnPlayerID !== null && <Players players={players} turnPlayerID={turnPlayerID} />}
     </>
   )

@@ -18,12 +18,13 @@ export default function Square({ question, turnPlayerID, player, handleQuestionS
   return (
     <button 
       className={clsx(
-        "border-2 hover:cursor-pointer",
+        "border-2",
         {
-          "grayscale": question.answered
+          "hover:cursor-pointer": !question.answered,
+          "bg-gray-300": question.answered
         }
       )}
-      disabled={question.answered || turnPlayerID !== player.id} 
+      disabled={question.answered || turnPlayerID !== player?.id} 
       onClick={() => handleQuestionSelect(question)}>{earnablePoints}
     </button>
   )

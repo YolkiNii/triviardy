@@ -93,12 +93,29 @@ function registerGameHandlers(io, socket, app) {
     const player: TriviardyPlayer = game.getPlayerByID(recieved.playerID);
     player.updateScore(score);
 
-    // Give the turn to the player if they answered it correctly
-    if (score > 0)
-      game.setTurnPlayer(recieved.playerID);
-
     // Mark down player's attempt to answer
     player.setHaveAnswered(true);
+    game.setPlayerAnsweredCount(game.getPlayerAnsweredCount() + 1);
+
+    // Check if every player has answered for this question or the current player is correct
+    if (game.questionHasBeenAnswered() || score > 0) {
+      game.markQuestionAsAnswered(recieved.questionID);
+      game.setPlayerAnsweredCount(0);
+      data["changeQuestion"] = true;
+
+      // Check if game has ended
+      if (game.gameIsOver()) {
+        data["gameover"] = true;
+      }
+
+      // Check if player was right
+      if (score >= 0) {
+        game.setTurnPlayer(recieved.playerID);
+      }
+
+      // Reset player answer availability
+      game.resetPlayerAnswerAvailability();
+    }
 
     data["questions"] = game.allQuestionsToObject();
     data["players"] = game.allPlayersToObject();

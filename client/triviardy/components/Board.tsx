@@ -1,6 +1,6 @@
 import { QuestionType } from "@/types/QuestionType";
 import Square from "./Square"
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { SocketEvent, useSocketEvents } from "@/hooks/useSocketEvents";
 import socket from "@/services/socket";
 import useRoomID from "@/hooks/useRoomID";
@@ -12,12 +12,12 @@ export interface IBoardProps {
   questions: QuestionType[];
   player: TriviardyPlayerType;
   turnPlayerID: number;
+  selectedQuestion: QuestionType | undefined;
+  setSelectedQuestion: Dispatch<SetStateAction<QuestionType | undefined>>
 }
 
-export default function Board({ questions, player, turnPlayerID }: IBoardProps) {
-  const [selectedQuestion, setSelectedQuestion] = useState<QuestionType>();
+export default function Board({ questions, player, turnPlayerID, selectedQuestion, setSelectedQuestion }: IBoardProps) {
   const roomID = useRoomID();
-  const {user} = useUser();
 
   const events: SocketEvent[] = [
     {
