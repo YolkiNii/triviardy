@@ -124,10 +124,19 @@ function registerGameHandlers(io, socket, app) {
     io.to(recieved.roomID).emit("game:update_game", data);
   }
 
+  function sendNewGameChange(recieved: {roomID: number}) {
+    const data = {};
+    data["gameInSession"] = false;
+    console.log("New game for", recieved.roomID);
+
+    io.to(recieved.roomID).emit("game:initialize", data);
+  }
+
   socket.on("game:request_initialize", initializeClientGame)
   socket.on("game:request_game_state", sendClientGameState);
   socket.on("game:request_question_select", sendSelectedQuestion);
   socket.on("game:request_answer_select", sendAnswerUpdate);
+  socket.on("game:request_start_new", sendNewGameChange);
 }
 
 export default registerGameHandlers;

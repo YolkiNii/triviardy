@@ -6,6 +6,7 @@ import socket from "@/services/socket";
 import useRoomID from "@/hooks/useRoomID";
 import useUser from "@/hooks/useUser";
 import { TriviardyPlayerType } from "@/types/TriviardyPlayerType";
+import { Dispatch } from "react";
 import clsx from "clsx";
 
 export interface IBoardProps {

@@ -52,7 +52,7 @@ export default function Lobby({ roomID }: ILobbyProps) {
   return (
     <>
       {gameInSession ? (
-        <Game />
+        <Game setGameInSession={setGameInSession}/>
       ) : (
         <div className="flex relative border-2 border-black h-[600px] items-center">
           <LobbyPlayerList players={players} />
